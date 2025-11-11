@@ -17,6 +17,7 @@ export default function Recipes({
   const [newRecipeName, setNewRecipeName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [ingredients, setIngredients] = useState(loadedIngredients);
+  const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
   const router = useRouter();
   return (
     <div>
@@ -25,8 +26,23 @@ export default function Recipes({
       <input
         type="text"
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={(e) => {
+          setCurrentRecipe(-1);
+          setSearchTerm(e.target.value);
+        }}
       />
+      <hr />
+      <label>
+        <input
+          type="checkbox"
+          checked={showOnlyFavorites}
+          onChange={() => {
+            setCurrentRecipe(-1);
+            setShowOnlyFavorites(!showOnlyFavorites);
+          }}
+        />
+        Show only favorites
+      </label>
       <hr />
       <div>
         <ul>
@@ -37,6 +53,7 @@ export default function Recipes({
                 prev.name.toLowerCase().includes(term)
               );
             })
+            .filter((prev) => (showOnlyFavorites ? prev.favorite : true))
             .map((recipe, index) => (
               <li key={recipe.id}>
                 <Button onClick={() => setCurrentRecipe(index)}>
