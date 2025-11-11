@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { updateIngredient, deleteIngredient } from "./actions";
+import ChangeNameButton from "./ChangeNameButton";
 import Button from "@/components/Button";
 
 export default function Ingredient({
@@ -13,9 +14,14 @@ export default function Ingredient({
   const [proteinVal, setProteinVal] = useState(currProtein);
   const [carbsVal, setCarbsVal] = useState(currCarbs);
   const [fatsVal, setFatsVal] = useState(currFats);
+  const [changeNameShown, setChangeNameShown] = useState(false);
   return (
     <div>
       <h2>Ingredient: {name}</h2>
+      <Button onClick={() => setChangeNameShown(!changeNameShown)}>
+        {changeNameShown ? "Hide Change Name" : "Show Change Name"}
+      </Button>
+      {changeNameShown && <ChangeNameButton id={id} />}
       <p>Protein: </p>
       <input
         type="number"
