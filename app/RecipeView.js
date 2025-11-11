@@ -2,6 +2,8 @@
 import Button from "@/components/Button";
 import { useState } from "react";
 import { updateRecipePreparation, updateRecipeName } from "./actions";
+import RecipeAddIngredient from "./RecipeAddIngredient";
+import RecipeIngredient from "./RecipeIngredient";
 
 export default function RecipeView({
   name,
@@ -9,6 +11,9 @@ export default function RecipeView({
   preparation,
   favorite,
   setRecipes,
+  ingredients,
+  allIngredients,
+  setIngredientRelations,
 }) {
   const [toAddStep, setToAddStep] = useState("");
   const [modifiedStepIndex, setModifiedStepIndex] = useState(-1);
@@ -130,6 +135,22 @@ export default function RecipeView({
       >
         +
       </Button>
+      <h2>Ingredients:</h2>
+      {ingredients.map((ingredient, index) => (
+        <RecipeIngredient
+          key={index}
+          name={ingredient.name}
+          quantity={ingredient.amount}
+          unit={ingredient.unit}
+          id={ingredient.id}
+        />
+      ))}
+      <h2>Add ingredient:</h2>
+      <RecipeAddIngredient
+        recipeId={id}
+        allIngredients={allIngredients}
+        setIngredientRelations={setIngredientRelations}
+      />
     </div>
   );
 }

@@ -24,3 +24,14 @@ export async function updateRecipeName(id, newName) {
   await sql`UPDATE recipes SET name = ${newName} WHERE id = ${id}`;
   revalidatePath("/");
 }
+
+export async function addIngredientRelation(
+  recipeId,
+  ingredientId,
+  quantity,
+  unit
+) {
+  const sql = neon(`${process.env.DATABASE_URL}`);
+  await sql`INSERT INTO ingredient_relations (recipe_id, ingredient_id, amount, unit) VALUES (${recipeId}, ${ingredientId}, ${quantity}, ${unit})`;
+  revalidatePath("/");
+}

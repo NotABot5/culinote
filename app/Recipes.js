@@ -5,13 +5,18 @@ import { useState } from "react";
 import { createRecipe, deleteRecipe } from "./actions";
 import { useRouter } from "next/navigation";
 
-export default function Recipes({ startingLoaded }) {
+export default function Recipes({
+  startingLoaded,
+  loadedIngredients,
+  allIngredients,
+}) {
   const [recipes, setRecipes] = useState(
     startingLoaded.map((r) => ({ ...r, favorite: false }))
   );
   const [currentRecipe, setCurrentRecipe] = useState(-1);
   const [newRecipeName, setNewRecipeName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [ingredients, setIngredients] = useState(loadedIngredients);
   const router = useRouter();
   return (
     <div>
@@ -80,6 +85,11 @@ export default function Recipes({ startingLoaded }) {
           name={recipes[currentRecipe].name}
           preparation={recipes[currentRecipe].preparation}
           setRecipes={setRecipes}
+          ingredients={ingredients.filter(
+            (ing) => ing.recipe_id === recipes[currentRecipe].id
+          )}
+          allIngredients={allIngredients}
+          setIngredientRelations={setIngredients}
         />
       )}
     </div>
