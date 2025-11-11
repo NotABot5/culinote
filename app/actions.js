@@ -12,3 +12,9 @@ export async function updateRecipePreparation(id, preparation) {
   await sql`UPDATE recipes SET preparation = ${preparation} WHERE id = ${id}`;
   revalidatePath("/");
 }
+
+export async function deleteRecipe(id) {
+  const sql = neon(`${process.env.DATABASE_URL}`);
+  await sql`DELETE FROM recipes WHERE id = ${id}`;
+  revalidatePath("/");
+}

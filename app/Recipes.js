@@ -2,7 +2,7 @@
 import Button from "@/components/Button";
 import RecipeView from "./RecipeView";
 import { useState } from "react";
-import { createRecipe } from "./actions";
+import { createRecipe, deleteRecipe } from "./actions";
 import { useRouter } from "next/navigation";
 
 export default function Recipes({ startingLoaded }) {
@@ -21,6 +21,17 @@ export default function Recipes({ startingLoaded }) {
               <Button onClick={() => setCurrentRecipe(index)}>
                 {recipe.name} {recipe.favorite && "(favorite)"}
               </Button>
+              <Button
+                onClick={() => {
+                  setCurrentRecipe(-1);
+                  setRecipes((prevRecipes) =>
+                    prevRecipes.filter((r) => r.id !== recipe.id)
+                  );
+                  deleteRecipe(recipe.id);
+                }}
+              >
+                Delete recipe
+              </Button>
             </li>
           ))}
         </ul>
@@ -36,6 +47,7 @@ export default function Recipes({ startingLoaded }) {
               ...prevRecipes,
               { ...created, favorite: false },
             ]);
+            setCurrentRecipe(recipes.length);
             router.refresh();
           }}
         >

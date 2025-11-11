@@ -2,6 +2,7 @@
 import Button from "@/components/Button";
 import { useState } from "react";
 import { updateRecipePreparation } from "./actions";
+import { deleteRecipe } from "./actions";
 
 export default function RecipeView({
   name,
@@ -11,6 +12,7 @@ export default function RecipeView({
   setRecipes,
 }) {
   const [toAddStep, setToAddStep] = useState("");
+  const [modifiedStepIndex, setModifiedStepIndex] = useState(-1);
   return (
     <div>
       <h1>{name}</h1>
@@ -31,7 +33,56 @@ export default function RecipeView({
       <h2>Preparation:</h2>
       <ul>
         {preparation.map((step, index) => (
-          <li key={index}>{step}</li>
+          <li key={index}>
+            {step}
+            <Button
+              onClick={() => {
+                const newPreparation = preparation.filter(
+                  (a, i) => i !== index
+                );
+                setRecipes((prevRecipes) =>
+                  prevRecipes.map((recipe) =>
+                    recipe.id === id
+                      ? { ...recipe, preparation: newPreparation }
+                      : recipe
+                  )
+                );
+                updateRecipePreparation(id, newPreparation);
+              }}
+            >
+              Delete step
+            </Button>
+            <Button onClick={() => setModifiedStepIndex(index)}>
+              Modify step
+            </Button>
+            {modifiedStepIndex === index && (
+              <div>
+                <input
+                  type="text"
+                  value={preparation[index]}
+                  onChange={(e) => {
+                    const newPreparation = [...preparation];
+                    newPreparation[index] = e.target.value;
+                    setRecipes((prevRecipes) =>
+                      prevRecipes.map((recipe) =>
+                        recipe.id === id
+                          ? { ...recipe, preparation: newPreparation }
+                          : recipe
+                      )
+                    );
+                  }}
+                />
+                <Button
+                  onClick={() => {
+                    updateRecipePreparation(id, preparation);
+                    setModifiedStepIndex(-1);
+                  }}
+                >
+                  Save
+                </Button>
+              </div>
+            )}
+          </li>
         ))}
       </ul>
       <input
