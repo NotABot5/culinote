@@ -41,6 +41,7 @@ export default function Ingredient({
         onChange={(e) => setFatsVal(e.target.value)}
       />
       <p>/per 100g</p>
+      <p>kcal/100g: {proteinVal * 4 + carbsVal * 4 + fatsVal * 9}</p>
       <Button
         onClick={() => updateIngredient(id, proteinVal, carbsVal, fatsVal)}
       >
