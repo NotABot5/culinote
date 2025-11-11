@@ -11,30 +11,45 @@ export default function Recipes({ startingLoaded }) {
   );
   const [currentRecipe, setCurrentRecipe] = useState(-1);
   const [newRecipeName, setNewRecipeName] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
   return (
     <div>
       <hr />
+      <h1>Search here:</h1>
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <hr />
       <div>
         <ul>
-          {recipes.map((recipe, index) => (
-            <li key={recipe.id}>
-              <Button onClick={() => setCurrentRecipe(index)}>
-                {recipe.name} {recipe.favorite && "(favorite)"}
-              </Button>
-              <Button
-                onClick={() => {
-                  setCurrentRecipe(-1);
-                  setRecipes((prevRecipes) =>
-                    prevRecipes.filter((r) => r.id !== recipe.id)
-                  );
-                  deleteRecipe(recipe.id);
-                }}
-              >
-                Delete recipe
-              </Button>
-            </li>
-          ))}
+          {recipes
+            .filter((prev) => {
+              const allTerms = searchTerm.toLowerCase().split(" ");
+              return allTerms.every((term) =>
+                prev.name.toLowerCase().includes(term)
+              );
+            })
+            .map((recipe, index) => (
+              <li key={recipe.id}>
+                <Button onClick={() => setCurrentRecipe(index)}>
+                  {recipe.name} {recipe.favorite && "(favorite)"}
+                </Button>
+                <Button
+                  onClick={() => {
+                    setCurrentRecipe(-1);
+                    setRecipes((prevRecipes) =>
+                      prevRecipes.filter((r) => r.id !== recipe.id)
+                    );
+                    deleteRecipe(recipe.id);
+                  }}
+                >
+                  Delete recipe
+                </Button>
+              </li>
+            ))}
         </ul>
         <input
           type="text"
