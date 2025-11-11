@@ -48,6 +48,7 @@ export default function Ingredient({
         Update Ingredient
       </Button>
       <Button onClick={() => deleteIngredient(id)}>Delete Ingredient</Button>
+      <hr />
     </div>
   );
 }

@@ -21,6 +21,7 @@ export default async function EditIngredientsPage() {
           />
         ))}
       <AddIngredientButton />
+      <hr />
       <Link href="/">Exit edit ingredients view</Link>
     </div>
   );

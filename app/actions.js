@@ -18,3 +18,9 @@ export async function deleteRecipe(id) {
   await sql`DELETE FROM recipes WHERE id = ${id}`;
   revalidatePath("/");
 }
+
+export async function updateRecipeName(id, newName) {
+  const sql = neon(`${process.env.DATABASE_URL}`);
+  await sql`UPDATE recipes SET name = ${newName} WHERE id = ${id}`;
+  revalidatePath("/");
+}

@@ -1,8 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import { useState } from "react";
-import { updateRecipePreparation } from "./actions";
-import { deleteRecipe } from "./actions";
+import { updateRecipePreparation, updateRecipeName } from "./actions";
 
 export default function RecipeView({
   name,
@@ -13,9 +12,36 @@ export default function RecipeView({
 }) {
   const [toAddStep, setToAddStep] = useState("");
   const [modifiedStepIndex, setModifiedStepIndex] = useState(-1);
+  const [modifyingName, setModifyingName] = useState(false);
+  const [newName, setNewName] = useState(name);
   return (
     <div>
       <h1>{name}</h1>
+      <Button onClick={() => setModifyingName(!modifyingName)}>
+        {modifyingName ? "Cancel name change" : "Change recipe name"}
+      </Button>
+      {modifyingName && (
+        <div>
+          <input
+            type="text"
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+          />
+          <Button
+            onClick={() => {
+              setRecipes((prevRecipes) =>
+                prevRecipes.map((recipe) =>
+                  recipe.id === id ? { ...recipe, name: newName } : recipe
+                )
+              );
+              setModifyingName(false);
+              updateRecipeName(id, newName);
+            }}
+          >
+            Save Name
+          </Button>
+        </div>
+      )}
       <p>{favorite ? "Favorite" : "Not Favorite"}</p>
       <Button
         onClick={() =>

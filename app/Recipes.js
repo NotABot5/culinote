@@ -14,6 +14,7 @@ export default function Recipes({ startingLoaded }) {
   const router = useRouter();
   return (
     <div>
+      <hr />
       <div>
         <ul>
           {recipes.map((recipe, index) => (
@@ -54,6 +55,7 @@ export default function Recipes({ startingLoaded }) {
           Add recipe
         </Button>
       </div>
+      <hr />
       {currentRecipe === -1 ? (
         <h1>Select recipe from list</h1>
       ) : (
