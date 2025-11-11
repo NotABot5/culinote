@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Button from "@/components/Button";
 import { addIngredientRelation } from "./actions";
+import { useRouter } from "next/navigation";
 
 export default function RecipeAddIngredient({
   recipeId,
@@ -11,6 +12,7 @@ export default function RecipeAddIngredient({
   const [selectedIngredient, setSelectedIngredient] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [unit, setUnit] = useState("g");
+  const router = useRouter();
   return (
     <div>
       <p>Select ingredient:</p>
@@ -38,12 +40,19 @@ export default function RecipeAddIngredient({
         onChange={(e) => setUnit(e.target.value)}
       />
       <Button
-        onClick={() => {
+        onClick={async () => {
           if (selectedIngredient === -1 || quantity <= 0) {
             return;
           }
           const ingredient = allIngredients.find(
             (ing) => ing.id === parseInt(selectedIngredient)
+          );
+
+          const addedRelation = await addIngredientRelation(
+            recipeId,
+            selectedIngredient,
+            quantity,
+            unit
           );
           setIngredientRelations((prevRelations) => [
             ...prevRelations,
@@ -52,10 +61,11 @@ export default function RecipeAddIngredient({
               ingredient_id: selectedIngredient,
               amount: quantity,
               unit: unit,
+              id: addedRelation[0].id,
               ...ingredient,
             },
           ]);
-          addIngredientRelation(recipeId, selectedIngredient, quantity, unit);
+          router.refresh();
           setSelectedIngredient("");
           setQuantity(0);
           setUnit("g");

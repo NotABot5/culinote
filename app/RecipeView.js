@@ -143,6 +143,7 @@ export default function RecipeView({
           quantity={ingredient.amount}
           unit={ingredient.unit}
           id={ingredient.id}
+          setIngredientRelations={setIngredientRelations}
         />
       ))}
       <h2>Add ingredient:</h2>

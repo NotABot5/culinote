@@ -41,7 +41,7 @@ export default function Recipes({
             setShowOnlyFavorites(!showOnlyFavorites);
           }}
         />
-        Show only favorites
+        Show favorites
       </label>
       <hr />
       <div>

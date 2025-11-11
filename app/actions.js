@@ -32,6 +32,11 @@ export async function addIngredientRelation(
   unit
 ) {
   const sql = neon(`${process.env.DATABASE_URL}`);
-  await sql`INSERT INTO ingredient_relations (recipe_id, ingredient_id, amount, unit) VALUES (${recipeId}, ${ingredientId}, ${quantity}, ${unit})`;
+  return await sql`INSERT INTO ingredient_relations (recipe_id, ingredient_id, amount, unit) VALUES (${recipeId}, ${ingredientId}, ${quantity}, ${unit}) RETURNING *`;
+}
+
+export async function deleteIngredientRelation(id) {
+  const sql = neon(`${process.env.DATABASE_URL}`);
+  await sql`DELETE FROM ingredient_relations WHERE id = ${id}`;
   revalidatePath("/");
 }
