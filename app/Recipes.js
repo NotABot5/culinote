@@ -19,7 +19,7 @@ export default function Recipes({ startingLoaded }) {
           {recipes.map((recipe, index) => (
             <li key={recipe.id}>
               <Button onClick={() => setCurrentRecipe(index)}>
-                {recipe.name}
+                {recipe.name} {recipe.favorite && "(favorite)"}
               </Button>
             </li>
           ))}
@@ -50,6 +50,7 @@ export default function Recipes({ startingLoaded }) {
           id={recipes[currentRecipe].id}
           name={recipes[currentRecipe].name}
           preparation={recipes[currentRecipe].preparation}
+          setRecipes={setRecipes}
         />
       )}
     </div>
