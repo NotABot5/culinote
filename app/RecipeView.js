@@ -4,6 +4,7 @@ import { useState } from "react";
 import { updateRecipePreparation, updateRecipeName } from "./actions";
 import RecipeAddIngredient from "./RecipeAddIngredient";
 import RecipeIngredient from "./RecipeIngredient";
+import RecipeDownloader from "./RecipeDownloader";
 
 export default function RecipeView({
   name,
@@ -47,6 +48,11 @@ export default function RecipeView({
           </Button>
         </div>
       )}
+      <RecipeDownloader
+        name={name}
+        preparation={preparation}
+        ingredients={ingredients}
+      />
       <p>{favorite ? "Favorite" : "Not Favorite"}</p>
       <Button
         onClick={() =>
