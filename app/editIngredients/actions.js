@@ -15,7 +15,6 @@ export async function deleteIngredient(id) {
 }
 
 export async function addIngredient(name) {
-  console.log(name);
   const sql = neon(`${process.env.DATABASE_URL}`);
   await sql`INSERT INTO ingredients (name, protein, carbs, fat) VALUES (${name}, 0, 0, 0)`;
   revalidatePath("/editIngredients");

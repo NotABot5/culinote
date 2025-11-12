@@ -26,6 +26,7 @@ export default function Recipes({
   const [knowsEnglish, setKnowsEnglish] = useState(true);
   const [knowsDutch, setKnowsDutch] = useState(false);
   const [knowsPolish, setKnowsPolish] = useState(false);
+  const [newRecipeLang, setNewRecipeLang] = useState("en");
   const router = useRouter();
   return (
     <div>
@@ -118,6 +119,12 @@ export default function Recipes({
               );
             })
             .filter((prev) => (showOnlyFavorites ? prev.favorite : true))
+            .filter((prev) => {
+              if (knowsEnglish && prev.language === "en") return true;
+              if (knowsDutch && prev.language === "nl") return true;
+              if (knowsPolish && prev.language === "pl") return true;
+              return false;
+            })
             .map((recipe, index) => (
               <li key={recipe.id}>
                 <Button onClick={() => setCurrentRecipe(index)}>
@@ -151,9 +158,19 @@ export default function Recipes({
           value={newRecipeName}
           onChange={(e) => setNewRecipeName(e.target.value)}
         />
+        <select
+          value={newRecipeLang}
+          onChange={(e) => setNewRecipeLang(e.target.value)}
+        >
+          <option value="en">en</option>
+          <option value="nl">nl</option>
+          <option value="pl">pl</option>
+        </select>
         <Button
           onClick={async () => {
-            const created = (await createRecipe(newRecipeName))[0];
+            const created = (
+              await createRecipe(newRecipeName, newRecipeLang)
+            )[0];
             setRecipes((prevRecipes) => [
               ...prevRecipes,
               { ...created, favorite: false },
