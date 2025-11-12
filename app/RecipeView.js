@@ -21,6 +21,23 @@ export default function RecipeView({
   const [modifiedStepIndex, setModifiedStepIndex] = useState(-1);
   const [modifyingName, setModifyingName] = useState(false);
   const [newName, setNewName] = useState(name);
+  const [scale, setScale] = useState(1);
+  const [servings, setServings] = useState(1);
+  let weight =
+    (ingredients.reduce((total, ingredient) => {
+      return ingredient.unit === "g"
+        ? Number(total) + Number(ingredient.amount)
+        : ingredient.unit === "kg"
+        ? Number(ingredient.amount) * 1000 + Number(total)
+        : Number(total);
+    }, 0) /
+      servings) *
+    scale;
+  if (weight < 1000) {
+    weight = weight + " g";
+  } else {
+    weight = weight / 1000 + " kg";
+  }
   return (
     <div>
       <h1>{name}</h1>
@@ -157,16 +174,35 @@ export default function RecipeView({
         +
       </Button>
       <h2>Ingredients:</h2>
+      <label>
+        Scale ingredient quantities:{" "}
+        <input
+          type="number"
+          value={scale}
+          onChange={(e) => setScale(e.target.value)}
+        />
+      </label>
+      <br />
+      <label>
+        Specify number of servings in recipe:{" "}
+        <input
+          type="number"
+          value={servings}
+          onChange={(e) => setServings(e.target.value)}
+        />
+      </label>
       {ingredients.map((ingredient, index) => (
         <RecipeIngredient
           key={index}
           name={ingredient.name}
-          quantity={ingredient.amount}
+          quantity={ingredient.amount * scale}
           unit={ingredient.unit}
           id={ingredient.id}
           setIngredientRelations={setIngredientRelations}
         />
       ))}
+      <p>Total serving size: {weight}</p>
+      <hr />
       <h2>Add ingredient:</h2>
       <RecipeAddIngredient
         recipeId={id}
