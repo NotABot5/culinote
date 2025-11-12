@@ -16,6 +16,7 @@ export default function RecipeView({
   allIngredients,
   setIngredientRelations,
   setShoppingList,
+  language,
   preferredLanguage,
 }) {
   const [toAddStep, setToAddStep] = useState("");
@@ -54,7 +55,22 @@ export default function RecipeView({
 
   return (
     <div>
-      <h1>{name}</h1>
+      <h1 className="text-2xl font-bold">
+        {preferredLanguage === "en"
+          ? "Current recipe: "
+          : preferredLanguage === "nl"
+          ? "Huidig recept: "
+          : "Aktualny przepis: "}
+        {name}
+      </h1>
+      <h2>
+        {preferredLanguage === "en"
+          ? "Language: "
+          : preferredLanguage === "nl"
+          ? "Taal: "
+          : "Język: "}
+        {language}
+      </h2>
       <Button onClick={() => setModifyingName(!modifyingName)}>
         {modifyingName
           ? preferredLanguage === "en"
@@ -286,6 +302,7 @@ export default function RecipeView({
           unit={ingredient.unit}
           id={ingredient.id}
           setIngredientRelations={setIngredientRelations}
+          preferredLanguage={preferredLanguage}
         />
       ))}
       <p>
@@ -297,7 +314,7 @@ export default function RecipeView({
       </p>
       <p>kcal/100g: {caloriesIn100g.toFixed(1)}</p>
       <hr />
-      <h2>
+      <h2 className="text-2xl">
         {preferredLanguage === "en"
           ? "Add ingredient:"
           : preferredLanguage === "nl"

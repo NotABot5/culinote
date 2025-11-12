@@ -19,7 +19,11 @@ export default function ShoppingListAdder({
             setIngredientAdderVisible(true);
           }}
         >
-          Add ingredient
+          {preferredLanguage === "en"
+            ? "Add ingredient"
+            : preferredLanguage === "nl"
+            ? "Voeg ingrediënt toe"
+            : "Dodaj składnik"}
         </Button>
       )}
       {ingredientAdderVisible && (

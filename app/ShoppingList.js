@@ -43,6 +43,17 @@ export default function ShoppingList({
           );
         })}
       </ul>
+      <Button
+        onClick={() => {
+          setShoppingList(() => []);
+        }}
+      >
+        {preferredLanguage === "en"
+          ? "Reset shopping list"
+          : preferredLanguage === "nl"
+          ? "Leeg boodschappenlijst"
+          : "Wyczyść listę zakupów"}
+      </Button>
       <ShoppingListAdder
         setShoppingList={setShoppingList}
         allIngredients={allIngredients}

@@ -218,6 +218,7 @@ export default function Recipes({
           setIngredientRelations={setIngredients}
           setShoppingList={setShoppingList}
           preferredLanguage={preferredLanguage}
+          language={recipes[currentRecipe].language}
         />
       )}
     </div>
