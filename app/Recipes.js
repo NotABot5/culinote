@@ -4,6 +4,7 @@ import RecipeView from "./RecipeView";
 import { useState } from "react";
 import { createRecipe, deleteRecipe } from "./actions";
 import { useRouter } from "next/navigation";
+import ShoppingList from "./ShoppingList";
 
 export default function Recipes({
   startingLoaded,
@@ -18,6 +19,8 @@ export default function Recipes({
   const [searchTerm, setSearchTerm] = useState("");
   const [ingredients, setIngredients] = useState(loadedIngredients);
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
+  const [shoppingList, setShoppingList] = useState([]);
+  const [shoppingListVisible, setShoppingListVisible] = useState(false);
   const router = useRouter();
   return (
     <div>
@@ -93,6 +96,20 @@ export default function Recipes({
         </Button>
       </div>
       <hr />
+      <Button
+        onClick={() => {
+          setShoppingListVisible((prev) => !prev);
+        }}
+      >
+        {shoppingListVisible ? "Hide shopping list" : "Show shopping list"}
+      </Button>
+      {shoppingListVisible && (
+        <ShoppingList
+          shoppingListData={shoppingList}
+          setShoppingList={setShoppingList}
+        />
+      )}
+      <hr />
       {currentRecipe === -1 ? (
         <h1>Select recipe from list</h1>
       ) : (
@@ -107,6 +124,7 @@ export default function Recipes({
           )}
           allIngredients={allIngredients}
           setIngredientRelations={setIngredients}
+          setShoppingList={setShoppingList}
         />
       )}
     </div>

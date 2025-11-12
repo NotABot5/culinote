@@ -15,6 +15,7 @@ export default function RecipeView({
   ingredients,
   allIngredients,
   setIngredientRelations,
+  setShoppingList,
 }) {
   const [toAddStep, setToAddStep] = useState("");
   const [modifiedStepIndex, setModifiedStepIndex] = useState(-1);
@@ -66,6 +67,20 @@ export default function RecipeView({
         }
       >
         {favorite ? "Remove from favorites" : "Add to favorites"}
+      </Button>
+      <Button
+        onClick={() => {
+          setShoppingList((prevShoppingList) => {
+            return [
+              ...prevShoppingList,
+              ...ingredients.map((from) => {
+                return { ...from, source: name };
+              }),
+            ];
+          });
+        }}
+      >
+        Add ingredients to shopping list
       </Button>
       <h2>Preparation:</h2>
       <ul>

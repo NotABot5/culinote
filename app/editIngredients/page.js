@@ -5,7 +5,8 @@ import Link from "next/link";
 
 export default async function EditIngredientsPage() {
   const sql = neon(`${process.env.DATABASE_URL}`);
-  const ingredients = await sql`SELECT * FROM ingredients`;
+  const ingredients =
+    await sql`SELECT ingredients.name, ingredients.id, ingredients.protein, ingredients.carbs, ingredients.fat, COUNT(*) AS relation_count FROM ingredients JOIN ingredient_relations ON ingredient_relations.ingredient_id = ingredients.id GROUP BY ingredients.id`;
   return (
     <div>
       {ingredients
@@ -18,6 +19,7 @@ export default async function EditIngredientsPage() {
             currProtein={ingredient.protein}
             currCarbs={ingredient.carbs}
             currFats={ingredient.fat}
+            usedInRecipes={ingredient.relation_count}
           />
         ))}
       <AddIngredientButton />

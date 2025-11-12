@@ -10,6 +10,7 @@ export default function Ingredient({
   currProtein,
   currCarbs,
   currFats,
+  usedInRecipes,
 }) {
   const [proteinVal, setProteinVal] = useState(currProtein);
   const [carbsVal, setCarbsVal] = useState(currCarbs);
@@ -48,6 +49,7 @@ export default function Ingredient({
         Update Ingredient
       </Button>
       <Button onClick={() => deleteIngredient(id)}>Delete Ingredient</Button>
+      <p>{usedInRecipes} - used in this many recipes</p>
       <hr />
     </div>
   );
