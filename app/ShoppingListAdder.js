@@ -2,7 +2,11 @@
 import Button from "@/components/Button";
 import { useState } from "react";
 
-export default function ShoppingListAdder({ setShoppingList, allIngredients }) {
+export default function ShoppingListAdder({
+  setShoppingList,
+  allIngredients,
+  preferredLanguage,
+}) {
   const [selectedIngredient, setSelectedIngredient] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [unit, setUnit] = useState("g");
@@ -21,34 +25,60 @@ export default function ShoppingListAdder({ setShoppingList, allIngredients }) {
       {ingredientAdderVisible && (
         <div>
           <hr />
-          Add ingredient to shopping list:
+          {preferredLanguage === "en"
+            ? "Add ingredient to shopping list:"
+            : preferredLanguage === "nl"
+            ? "Voeg ingrediënt toe aan boodschappenlijst:"
+            : "Dodaj składnik do listy zakupów:"}
           <br />
           <Button
             onClick={() => {
               setIngredientAdderVisible(false);
             }}
           >
-            Cancel
+            {preferredLanguage === "en"
+              ? "Cancel"
+              : preferredLanguage === "nl"
+              ? "Annuleren"
+              : "Anuluj"}
           </Button>
           <br />
           <select
             value={selectedIngredient}
             onChange={(e) => setSelectedIngredient(e.target.value)}
           >
-            <option value={-1}>Ingredient selection</option>
+            <option value={-1}>
+              {preferredLanguage === "en"
+                ? "Ingredient selection"
+                : preferredLanguage === "nl"
+                ? "Ingrediënt selectie"
+                : "Wybór składnika"}
+            </option>
             {allIngredients.map((ingredient) => (
               <option key={ingredient.id} value={ingredient.id}>
                 {ingredient.name}
               </option>
             ))}
           </select>
-          <p>Quantity:</p>
+          <p>
+            {preferredLanguage === "en"
+              ? "Quantity:"
+              : preferredLanguage === "nl"
+              ? "Hoeveelheid:"
+              : "Ilość:"}
+          </p>
           <input
             type="number"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
           />
-          <p>Unit:</p>
+          <p>
+            {preferredLanguage === "en"
+              ? "Unit:"
+              : preferredLanguage === "nl"
+              ? "Eenheid:"
+              : "Jednostka:"}
+          </p>
           <input
             type="text"
             value={unit}
@@ -74,7 +104,11 @@ export default function ShoppingListAdder({ setShoppingList, allIngredients }) {
               setIngredientAdderVisible(false);
             }}
           >
-            Add ingredient
+            {preferredLanguage === "en"
+              ? "Add ingredient"
+              : preferredLanguage === "nl"
+              ? "Voeg ingrediënt toe"
+              : "Dodaj składnik"}
           </Button>
         </div>
       )}

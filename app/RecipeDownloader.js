@@ -3,7 +3,12 @@
 import Button from "@/components/Button";
 import Link from "next/link";
 
-export default function RecipeDownloader({ name, preparation, ingredients }) {
+export default function RecipeDownloader({
+  name,
+  preparation,
+  ingredients,
+  preferredLanguage,
+}) {
   const recipeText =
     name +
     "\n\nIngredients:\n" +
@@ -17,7 +22,11 @@ export default function RecipeDownloader({ name, preparation, ingredients }) {
   return (
     <Button>
       <Link href={fileURL} download={`${name}.txt`}>
-        Download Recipe
+        {preferredLanguage === "en"
+          ? "Download Recipe"
+          : preferredLanguage === "nl"
+          ? "Download Recept"
+          : "Pobierz przepis"}
       </Link>
     </Button>
   );

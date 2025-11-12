@@ -8,6 +8,7 @@ export default function RecipeAddIngredient({
   recipeId,
   allIngredients,
   setIngredientRelations,
+  preferredLanguage,
 }) {
   const [selectedIngredient, setSelectedIngredient] = useState(0);
   const [quantity, setQuantity] = useState(0);
@@ -15,25 +16,49 @@ export default function RecipeAddIngredient({
   const router = useRouter();
   return (
     <div>
-      <p>Select ingredient:</p>
+      <p>
+        {preferredLanguage === "en"
+          ? "Select ingredient:"
+          : preferredLanguage === "nl"
+          ? "Selecteer ingrediënt:"
+          : "Wybierz składnik:"}
+      </p>
       <select
         value={selectedIngredient}
         onChange={(e) => setSelectedIngredient(e.target.value)}
       >
-        <option value={-1}>Ingredient selection</option>
+        <option value={-1}>
+          {preferredLanguage === "en"
+            ? "Ingredient selection"
+            : preferredLanguage === "nl"
+            ? "Ingrediënt selectie"
+            : "Wybór składnika"}
+        </option>
         {allIngredients.map((ingredient) => (
           <option key={ingredient.id} value={ingredient.id}>
             {ingredient.name}
           </option>
         ))}
       </select>
-      <p>Quantity:</p>
+      <p>
+        {preferredLanguage === "en"
+          ? "Quantity:"
+          : preferredLanguage === "nl"
+          ? "Hoeveelheid:"
+          : "Ilość:"}
+      </p>
       <input
         type="number"
         value={quantity}
         onChange={(e) => setQuantity(e.target.value)}
       />
-      <p>Unit:</p>
+      <p>
+        {preferredLanguage === "en"
+          ? "Unit:"
+          : preferredLanguage === "nl"
+          ? "Eenheid:"
+          : "Jednostka:"}
+      </p>
       <input
         type="text"
         value={unit}
@@ -71,7 +96,11 @@ export default function RecipeAddIngredient({
           setUnit("g");
         }}
       >
-        Add Ingredient to Recipe
+        {preferredLanguage === "en"
+          ? "Add ingredient to recipe"
+          : preferredLanguage === "nl"
+          ? "Voeg ingrediënt toe aan recept"
+          : "Dodaj składnik do przepisu"}
       </Button>
     </div>
   );

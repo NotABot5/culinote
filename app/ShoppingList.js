@@ -6,16 +6,28 @@ export default function ShoppingList({
   shoppingListData,
   setShoppingList,
   allIngredients,
+  preferredLanguage,
 }) {
   return (
     <div>
-      <h2>Shopping list:</h2>
+      <h2>
+        {preferredLanguage === "en"
+          ? "Shopping list:"
+          : preferredLanguage === "nl"
+          ? "Boodschappenlijst:"
+          : "Lista zakupów:"}
+      </h2>
       <ul>
         {shoppingListData.map((item, index) => {
           return (
             <li key={index}>
               - {item.amount} {item.unit}: {item.name}{" "}
-              {item.source && `(from recipe ${item.source})`}
+              {item.source &&
+                (preferredLanguage === "en"
+                  ? `(from recipe ${item.source})`
+                  : preferredLanguage === "nl"
+                  ? `(van recept ${item.source})`
+                  : `(z przepisu ${item.source})`)}
               <Button
                 onClick={() => {
                   setShoppingList((prev) => {
@@ -34,8 +46,12 @@ export default function ShoppingList({
       <ShoppingListAdder
         setShoppingList={setShoppingList}
         allIngredients={allIngredients}
+        preferredLanguage={preferredLanguage}
       />
-      <ShoppingListDownloader items={shoppingListData} />
+      <ShoppingListDownloader
+        items={shoppingListData}
+        preferredLanguage={preferredLanguage}
+      />
     </div>
   );
 }

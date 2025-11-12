@@ -16,6 +16,7 @@ export default function RecipeView({
   allIngredients,
   setIngredientRelations,
   setShoppingList,
+  preferredLanguage,
 }) {
   const [toAddStep, setToAddStep] = useState("");
   const [modifiedStepIndex, setModifiedStepIndex] = useState(-1);
@@ -33,16 +34,39 @@ export default function RecipeView({
     }, 0) /
       servings) *
     scale;
+  let totalCalories =
+    (ingredients.reduce((total, ingredient) => {
+      return (
+        Number(total) +
+        ((ingredient.carbs * 4 + ingredient.protein * 4 + ingredient.fat * 9) *
+          Number(ingredient.amount)) /
+          100
+      );
+    }, 0) /
+      servings) *
+    scale;
+  let caloriesIn100g = (totalCalories / weight) * 100;
   if (weight < 1000) {
     weight = weight + " g";
   } else {
     weight = weight / 1000 + " kg";
   }
+
   return (
     <div>
       <h1>{name}</h1>
       <Button onClick={() => setModifyingName(!modifyingName)}>
-        {modifyingName ? "Cancel name change" : "Change recipe name"}
+        {modifyingName
+          ? preferredLanguage === "en"
+            ? "Cancel name change"
+            : preferredLanguage === "nl"
+            ? "Annuleer naamswijziging"
+            : "Anuluj zmianę nazwy"
+          : preferredLanguage === "en"
+          ? "Change recipe name"
+          : preferredLanguage === "nl"
+          ? "Wijzig receptnaam"
+          : "Zmień nazwę przepisu"}
       </Button>
       {modifyingName && (
         <div>
@@ -62,7 +86,11 @@ export default function RecipeView({
               updateRecipeName(id, newName);
             }}
           >
-            Save Name
+            {preferredLanguage === "en"
+              ? "Save name"
+              : preferredLanguage === "nl"
+              ? "Sla naam op"
+              : "Zapisz"}
           </Button>
         </div>
       )}
@@ -70,8 +98,21 @@ export default function RecipeView({
         name={name}
         preparation={preparation}
         ingredients={ingredients}
+        preferredLanguage={preferredLanguage}
       />
-      <p>{favorite ? "Favorite" : "Not Favorite"}</p>
+      <p>
+        {favorite
+          ? preferredLanguage === "en"
+            ? "Favorite"
+            : preferredLanguage === "nl"
+            ? "Favoriet"
+            : "Ulubione"
+          : preferredLanguage === "en"
+          ? "Not Favorite"
+          : preferredLanguage === "nl"
+          ? "Niet favoriet"
+          : "Nie ulubione"}
+      </p>
       <Button
         onClick={() =>
           setRecipes((prevRecipes) =>
@@ -83,7 +124,17 @@ export default function RecipeView({
           )
         }
       >
-        {favorite ? "Remove from favorites" : "Add to favorites"}
+        {favorite
+          ? preferredLanguage === "en"
+            ? "Remove from favorites"
+            : preferredLanguage === "nl"
+            ? "Verwijder uit favorieten"
+            : "Usuń z ulubionych"
+          : preferredLanguage === "en"
+          ? "Add to favorites"
+          : preferredLanguage === "nl"
+          ? "Toevoegen aan favorieten"
+          : "Dodaj do ulubionych"}
       </Button>
       <Button
         onClick={() => {
@@ -97,9 +148,19 @@ export default function RecipeView({
           });
         }}
       >
-        Add ingredients to shopping list
+        {preferredLanguage === "en"
+          ? "Add ingredients to shopping list"
+          : preferredLanguage === "nl"
+          ? "Voeg ingrediënten toe aan boodschappenlijst"
+          : "Dodaj składniki do listy zakupów"}
       </Button>
-      <h2>Preparation:</h2>
+      <h2>
+        {preferredLanguage === "en"
+          ? "Preparation:"
+          : preferredLanguage === "nl"
+          ? "Bereiding:"
+          : "Przygotowanie:"}
+      </h2>
       <ul>
         {preparation.map((step, index) => (
           <li key={index}>
@@ -119,10 +180,18 @@ export default function RecipeView({
                 updateRecipePreparation(id, newPreparation);
               }}
             >
-              Delete step
+              {preferredLanguage === "en"
+                ? "Delete step"
+                : preferredLanguage === "nl"
+                ? "Verwijder stap"
+                : "Usuń krok"}
             </Button>
             <Button onClick={() => setModifiedStepIndex(index)}>
-              Modify step
+              {preferredLanguage === "en"
+                ? "Modify step"
+                : preferredLanguage === "nl"
+                ? "Wijzig stap"
+                : "Zmień krok"}
             </Button>
             {modifiedStepIndex === index && (
               <div>
@@ -147,7 +216,11 @@ export default function RecipeView({
                     setModifiedStepIndex(-1);
                   }}
                 >
-                  Save
+                  {preferredLanguage === "en"
+                    ? "Save"
+                    : preferredLanguage === "nl"
+                    ? "Opslaan"
+                    : "Zapisz"}
                 </Button>
               </div>
             )}
@@ -173,9 +246,19 @@ export default function RecipeView({
       >
         +
       </Button>
-      <h2>Ingredients:</h2>
+      <h2>
+        {preferredLanguage === "en"
+          ? "Ingredients:"
+          : preferredLanguage === "nl"
+          ? "Ingrediënten:"
+          : "Składniki:"}
+      </h2>
       <label>
-        Scale ingredient quantities:{" "}
+        {preferredLanguage === "en"
+          ? "Scale ingredient quantities: "
+          : preferredLanguage === "nl"
+          ? "Schaal ingrediëntenhoeveelheden: "
+          : "Skaluj ilości składników: "}
         <input
           type="number"
           value={scale}
@@ -184,7 +267,11 @@ export default function RecipeView({
       </label>
       <br />
       <label>
-        Specify number of servings in recipe:{" "}
+        {preferredLanguage === "en"
+          ? "Specify number of servings in recipe: "
+          : preferredLanguage === "nl"
+          ? "Geef het aantal porties in het recept op: "
+          : "Określ liczbę porcji w przepisie: "}
         <input
           type="number"
           value={servings}
@@ -201,13 +288,27 @@ export default function RecipeView({
           setIngredientRelations={setIngredientRelations}
         />
       ))}
-      <p>Total serving size: {weight}</p>
+      <p>
+        {preferredLanguage === "en"
+          ? `Total serving size: ${weight}`
+          : preferredLanguage === "nl"
+          ? `Totale portiegrootte: ${weight}`
+          : `Całkowity rozmiar porcji: ${weight}`}
+      </p>
+      <p>kcal/100g: {caloriesIn100g.toFixed(1)}</p>
       <hr />
-      <h2>Add ingredient:</h2>
+      <h2>
+        {preferredLanguage === "en"
+          ? "Add ingredient:"
+          : preferredLanguage === "nl"
+          ? "Ingrediënt toevoegen:"
+          : "Dodaj składnik:"}
+      </h2>
       <RecipeAddIngredient
         recipeId={id}
         allIngredients={allIngredients}
         setIngredientRelations={setIngredientRelations}
+        preferredLanguage={preferredLanguage}
       />
     </div>
   );

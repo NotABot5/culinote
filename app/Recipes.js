@@ -21,11 +21,68 @@ export default function Recipes({
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
   const [shoppingList, setShoppingList] = useState([]);
   const [shoppingListVisible, setShoppingListVisible] = useState(false);
+  const [languageSelectorVisible, setLanguageSelectorVisible] = useState(false);
+  const [preferredLanguage, setPreferredLanguage] = useState("en");
+  const [knowsEnglish, setKnowsEnglish] = useState(true);
+  const [knowsDutch, setKnowsDutch] = useState(false);
+  const [knowsPolish, setKnowsPolish] = useState(false);
   const router = useRouter();
   return (
     <div>
+      <Button
+        onClick={() => setLanguageSelectorVisible(!languageSelectorVisible)}
+      >
+        Language select / taal selecteren / wybór języka
+      </Button>
+      {languageSelectorVisible && (
+        <div>
+          <Button onClick={() => setPreferredLanguage("en")}>English</Button>
+          <Button onClick={() => setPreferredLanguage("nl")}>Nederlands</Button>
+          <Button onClick={() => setPreferredLanguage("pl")}>Polski</Button>
+          <div>
+            {preferredLanguage === "en"
+              ? "Select all languages you know:"
+              : preferredLanguage === "nl"
+              ? "Selecteer alle talen die je kent:"
+              : "Wybierz wszystkie języki, które znasz:"}
+            <br />
+            <label>
+              <input
+                type="checkbox"
+                checked={knowsEnglish}
+                onChange={() => setKnowsEnglish(!knowsEnglish)}
+              />
+              English
+            </label>
+            <br />
+            <label>
+              <input
+                type="checkbox"
+                checked={knowsDutch}
+                onChange={() => setKnowsDutch(!knowsDutch)}
+              />
+              Nederlands
+            </label>
+            <br />
+            <label>
+              <input
+                type="checkbox"
+                checked={knowsPolish}
+                onChange={() => setKnowsPolish(!knowsPolish)}
+              />
+              Polski
+            </label>
+          </div>
+        </div>
+      )}
       <hr />
-      <h1>Search here:</h1>
+      <h1>
+        {preferredLanguage === "en"
+          ? "Search here:"
+          : preferredLanguage === "nl"
+          ? "Zoek hier:"
+          : "Szukaj tutaj:"}
+      </h1>
       <input
         type="text"
         value={searchTerm}
@@ -44,7 +101,11 @@ export default function Recipes({
             setShowOnlyFavorites(!showOnlyFavorites);
           }}
         />
-        Show favorites
+        {preferredLanguage === "en"
+          ? " Show favorites"
+          : preferredLanguage === "nl"
+          ? " Favorieten tonen"
+          : " Pokaż ulubione"}
       </label>
       <hr />
       <div>
@@ -60,7 +121,12 @@ export default function Recipes({
             .map((recipe, index) => (
               <li key={recipe.id}>
                 <Button onClick={() => setCurrentRecipe(index)}>
-                  {recipe.name} {recipe.favorite && "(favorite)"}
+                  {recipe.name}{" "}
+                  {preferredLanguage === "en"
+                    ? recipe.favorite && "(favorite)"
+                    : preferredLanguage === "nl"
+                    ? recipe.favorite && "(favoriet)"
+                    : recipe.favorite && "(ulubione)"}
                 </Button>
                 <Button
                   onClick={() => {
@@ -71,7 +137,11 @@ export default function Recipes({
                     deleteRecipe(recipe.id);
                   }}
                 >
-                  Delete recipe
+                  {preferredLanguage === "en"
+                    ? "Delete recipe"
+                    : preferredLanguage === "nl"
+                    ? "Verwijder recept"
+                    : "Usuń przepis"}
                 </Button>
               </li>
             ))}
@@ -92,7 +162,11 @@ export default function Recipes({
             router.refresh();
           }}
         >
-          Add recipe
+          {preferredLanguage === "en"
+            ? "Create new recipe"
+            : preferredLanguage === "nl"
+            ? "Maak nieuw recept"
+            : "Utwórz nowy przepis"}
         </Button>
       </div>
       <hr />
@@ -101,18 +175,35 @@ export default function Recipes({
           setShoppingListVisible((prev) => !prev);
         }}
       >
-        {shoppingListVisible ? "Hide shopping list" : "Show shopping list"}
+        {preferredLanguage === "en"
+          ? shoppingListVisible
+            ? "Hide shopping list"
+            : "Show shopping list"
+          : preferredLanguage === "nl"
+          ? shoppingListVisible
+            ? "Verberg boodschappenlijst"
+            : "Toon boodschappenlijst"
+          : shoppingListVisible
+          ? "Ukryj listę zakupów"
+          : "Pokaż listę zakupów"}
       </Button>
       {shoppingListVisible && (
         <ShoppingList
           shoppingListData={shoppingList}
           setShoppingList={setShoppingList}
           allIngredients={allIngredients}
+          preferredLanguage={preferredLanguage}
         />
       )}
       <hr />
       {currentRecipe === -1 ? (
-        <h1>Select recipe from list</h1>
+        <h1>
+          {preferredLanguage === "en"
+            ? "Select recipe from list"
+            : preferredLanguage === "nl"
+            ? "Selecteer recept uit lijst"
+            : "Wybierz przepis z listy"}
+        </h1>
       ) : (
         <RecipeView
           favorite={recipes[currentRecipe].favorite}
@@ -126,6 +217,7 @@ export default function Recipes({
           allIngredients={allIngredients}
           setIngredientRelations={setIngredients}
           setShoppingList={setShoppingList}
+          preferredLanguage={preferredLanguage}
         />
       )}
     </div>

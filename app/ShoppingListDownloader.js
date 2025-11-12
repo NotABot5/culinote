@@ -3,7 +3,7 @@
 import Button from "@/components/Button";
 import Link from "next/link";
 
-export default function ShoppingListDownloader({ items }) {
+export default function ShoppingListDownloader({ items, preferredLanguage }) {
   const shoppingListText =
     "Shopping list:\n" +
     items.map((ing) => `-${ing.amount} ${ing.unit} of ${ing.name}`).join("\n");
@@ -12,7 +12,11 @@ export default function ShoppingListDownloader({ items }) {
   return (
     <Button>
       <Link href={fileURL} download={`shoppingList.txt`}>
-        Download shopping list
+        {preferredLanguage === "en"
+          ? "Download shopping list"
+          : preferredLanguage === "nl"
+          ? "Download boodschappenlijst"
+          : "Pobierz listę zakupów"}
       </Link>
     </Button>
   );

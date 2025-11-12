@@ -7,6 +7,7 @@ export default function RecipeIngredient({
   unit,
   id,
   setIngredientRelations,
+  preferredLanguage,
 }) {
   return (
     <div>
@@ -21,7 +22,11 @@ export default function RecipeIngredient({
           deleteIngredientRelation(id);
         }}
       >
-        Delete ingredient
+        {preferredLanguage === "en"
+          ? "Delete ingredient"
+          : preferredLanguage === "nl"
+          ? "Verwijder ingrediënt"
+          : "Usuń składnik"}
       </Button>
     </div>
   );

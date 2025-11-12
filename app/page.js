@@ -11,7 +11,6 @@ export default async function Home() {
   return (
     <div>
       <Link href="/editIngredients">Edit Ingredients</Link>
-      <h1>Recipes</h1>
       <Recipes
         startingLoaded={recipes}
         loadedIngredients={ingredients}
