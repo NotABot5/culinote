@@ -107,6 +107,7 @@ export default function Recipes({
         <ShoppingList
           shoppingListData={shoppingList}
           setShoppingList={setShoppingList}
+          allIngredients={allIngredients}
         />
       )}
       <hr />
