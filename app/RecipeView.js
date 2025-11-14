@@ -135,16 +135,16 @@ export default function RecipeView({
           : "Nie ulubione"}
       </p>
       <Button
-        onClick={() =>
+        onClick={() => {
           setRecipes((prevRecipes) => {
-            setSelectedRecipe(-1);
-            prevRecipes.map((recipe) =>
+            return prevRecipes.map((recipe) =>
               recipe.id === id
                 ? { ...recipe, favorite: !recipe.favorite }
                 : recipe
             );
-          })
-        }
+          });
+          setSelectedRecipe(-1);
+        }}
       >
         {favorite
           ? preferredLanguage === "en"
