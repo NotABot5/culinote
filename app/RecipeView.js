@@ -18,6 +18,7 @@ export default function RecipeView({
   setShoppingList,
   language,
   preferredLanguage,
+  setSelectedRecipe,
 }) {
   const [toAddStep, setToAddStep] = useState("");
   const [modifiedStepIndex, setModifiedStepIndex] = useState(-1);
@@ -89,7 +90,10 @@ export default function RecipeView({
           <input
             type="text"
             value={newName}
-            onChange={(e) => setNewName(e.target.value)}
+            onChange={(e) => {
+              setSelectedRecipe(-1);
+              setNewName(e.target.value);
+            }}
           />
           <Button
             onClick={() => {
@@ -131,13 +135,14 @@ export default function RecipeView({
       </p>
       <Button
         onClick={() =>
-          setRecipes((prevRecipes) =>
+          setRecipes((prevRecipes) => {
+            setSelectedRecipe(-1);
             prevRecipes.map((recipe) =>
               recipe.id === id
                 ? { ...recipe, favorite: !recipe.favorite }
                 : recipe
-            )
-          )
+            );
+          })
         }
       >
         {favorite

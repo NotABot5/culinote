@@ -243,6 +243,7 @@ export default function Recipes({
           setShoppingList={setShoppingList}
           preferredLanguage={preferredLanguage}
           language={temp_recipes[currentRecipe].language}
+          setSelectedRecipe={setCurrentRecipe}
         />
       )}
     </div>
