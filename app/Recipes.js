@@ -63,7 +63,10 @@ export default function Recipes({
               <input
                 type="checkbox"
                 checked={knowsEnglish}
-                onChange={() => setKnowsEnglish(!knowsEnglish)}
+                onChange={() => {
+                  setCurrentRecipe(-1);
+                  setKnowsEnglish(!knowsEnglish);
+                }}
               />
               English
             </label>
@@ -72,7 +75,10 @@ export default function Recipes({
               <input
                 type="checkbox"
                 checked={knowsDutch}
-                onChange={() => setKnowsDutch(!knowsDutch)}
+                onChange={() => {
+                  setCurrentRecipe(-1);
+                  setKnowsDutch(!knowsDutch);
+                }}
               />
               Nederlands
             </label>
@@ -81,7 +87,10 @@ export default function Recipes({
               <input
                 type="checkbox"
                 checked={knowsPolish}
-                onChange={() => setKnowsPolish(!knowsPolish)}
+                onChange={() => {
+                  setCurrentRecipe(-1);
+                  setKnowsPolish(!knowsPolish);
+                }}
               />
               Polski
             </label>
@@ -173,7 +182,7 @@ export default function Recipes({
               ...prevRecipes,
               { ...created, favorite: false },
             ]);
-            setCurrentRecipe(recipes.length);
+            setCurrentRecipe(temp_recipes.length);
             router.refresh();
           }}
         >
