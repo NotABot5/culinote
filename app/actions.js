@@ -16,7 +16,9 @@ export async function updateRecipePreparation(id, preparation) {
 export async function deleteRecipe(id) {
   const sql = neon(`${process.env.DATABASE_URL}`);
   await sql`DELETE FROM recipes WHERE id = ${id}`;
+  await sql`DELETE FROM ingredient_relations WHERE recipe_id = ${id}`;
   revalidatePath("/");
+  revalidatePath("/editIngredients");
 }
 
 export async function updateRecipeName(id, newName) {
@@ -39,6 +41,11 @@ export async function deleteIngredientRelation(id) {
   const sql = neon(`${process.env.DATABASE_URL}`);
   await sql`DELETE FROM ingredient_relations WHERE id = ${id}`;
   revalidatePath("/");
+  revalidatePath("/editIngredients");
+}
+
+export async function revalidateIngredientList() {
+  revalidatePath("/editIngredients");
 }
 
 export async function getIngredientData() {

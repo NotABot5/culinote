@@ -28,6 +28,18 @@ export default function Recipes({
   const [knowsPolish, setKnowsPolish] = useState(false);
   const [newRecipeLang, setNewRecipeLang] = useState("en");
   const router = useRouter();
+  const temp_recipes = recipes
+    .filter((prev) => {
+      const allTerms = searchTerm.toLowerCase().split(" ");
+      return allTerms.every((term) => prev.name.toLowerCase().includes(term));
+    })
+    .filter((prev) => (showOnlyFavorites ? prev.favorite : true))
+    .filter((prev) => {
+      if (knowsEnglish && prev.language === "en") return true;
+      if (knowsDutch && prev.language === "nl") return true;
+      if (knowsPolish && prev.language === "pl") return true;
+      return false;
+    });
   return (
     <div>
       <Button
@@ -111,47 +123,33 @@ export default function Recipes({
       <hr />
       <div>
         <ul>
-          {recipes
-            .filter((prev) => {
-              const allTerms = searchTerm.toLowerCase().split(" ");
-              return allTerms.every((term) =>
-                prev.name.toLowerCase().includes(term)
-              );
-            })
-            .filter((prev) => (showOnlyFavorites ? prev.favorite : true))
-            .filter((prev) => {
-              if (knowsEnglish && prev.language === "en") return true;
-              if (knowsDutch && prev.language === "nl") return true;
-              if (knowsPolish && prev.language === "pl") return true;
-              return false;
-            })
-            .map((recipe, index) => (
-              <li key={recipe.id}>
-                <Button onClick={() => setCurrentRecipe(index)}>
-                  {recipe.name}{" "}
-                  {preferredLanguage === "en"
-                    ? recipe.favorite && "(favorite)"
-                    : preferredLanguage === "nl"
-                    ? recipe.favorite && "(favoriet)"
-                    : recipe.favorite && "(ulubione)"}
-                </Button>
-                <Button
-                  onClick={() => {
-                    setCurrentRecipe(-1);
-                    setRecipes((prevRecipes) =>
-                      prevRecipes.filter((r) => r.id !== recipe.id)
-                    );
-                    deleteRecipe(recipe.id);
-                  }}
-                >
-                  {preferredLanguage === "en"
-                    ? "Delete recipe"
-                    : preferredLanguage === "nl"
-                    ? "Verwijder recept"
-                    : "Usuń przepis"}
-                </Button>
-              </li>
-            ))}
+          {temp_recipes.map((recipe, index) => (
+            <li key={recipe.id}>
+              <Button onClick={() => setCurrentRecipe(index)}>
+                {recipe.name}{" "}
+                {preferredLanguage === "en"
+                  ? recipe.favorite && "(favorite)"
+                  : preferredLanguage === "nl"
+                  ? recipe.favorite && "(favoriet)"
+                  : recipe.favorite && "(ulubione)"}
+              </Button>
+              <Button
+                onClick={() => {
+                  setCurrentRecipe(-1);
+                  setRecipes((prevRecipes) =>
+                    prevRecipes.filter((r) => r.id !== recipe.id)
+                  );
+                  deleteRecipe(recipe.id);
+                }}
+              >
+                {preferredLanguage === "en"
+                  ? "Delete recipe"
+                  : preferredLanguage === "nl"
+                  ? "Verwijder recept"
+                  : "Usuń przepis"}
+              </Button>
+            </li>
+          ))}
         </ul>
         <input
           type="text"
@@ -223,19 +221,19 @@ export default function Recipes({
         </h1>
       ) : (
         <RecipeView
-          favorite={recipes[currentRecipe].favorite}
-          id={recipes[currentRecipe].id}
-          name={recipes[currentRecipe].name}
-          preparation={recipes[currentRecipe].preparation}
+          favorite={temp_recipes[currentRecipe].favorite}
+          id={temp_recipes[currentRecipe].id}
+          name={temp_recipes[currentRecipe].name}
+          preparation={temp_recipes[currentRecipe].preparation}
           setRecipes={setRecipes}
           ingredients={ingredients.filter(
-            (ing) => ing.recipe_id === recipes[currentRecipe].id
+            (ing) => ing.recipe_id === temp_recipes[currentRecipe].id
           )}
           allIngredients={allIngredients}
           setIngredientRelations={setIngredients}
           setShoppingList={setShoppingList}
           preferredLanguage={preferredLanguage}
-          language={recipes[currentRecipe].language}
+          language={temp_recipes[currentRecipe].language}
         />
       )}
     </div>

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Button from "@/components/Button";
-import { addIngredientRelation } from "./actions";
+import { addIngredientRelation, revalidateIngredientList } from "./actions";
 import { useRouter } from "next/navigation";
 
 export default function RecipeAddIngredient({
@@ -91,6 +91,7 @@ export default function RecipeAddIngredient({
             },
           ]);
           router.refresh();
+          revalidateIngredientList();
           setSelectedIngredient("");
           setQuantity(0);
           setUnit("g");
