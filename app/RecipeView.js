@@ -5,6 +5,7 @@ import { updateRecipePreparation, updateRecipeName } from "./actions";
 import RecipeAddIngredient from "./RecipeAddIngredient";
 import RecipeIngredient from "./RecipeIngredient";
 import RecipeDownloader from "./RecipeDownloader";
+import Textbox from "@/components/Textbox";
 
 export default function RecipeView({
   name,
@@ -87,7 +88,7 @@ export default function RecipeView({
       </Button>
       {modifyingName && (
         <div>
-          <input
+          <Textbox
             type="text"
             value={newName}
             onChange={(e) => {
@@ -216,7 +217,7 @@ export default function RecipeView({
             </Button>
             {modifiedStepIndex === index && (
               <div>
-                <input
+                <Textbox
                   type="text"
                   value={preparation[index]}
                   onChange={(e) => {
@@ -248,7 +249,7 @@ export default function RecipeView({
           </li>
         ))}
       </ul>
-      <input
+      <Textbox
         type="text"
         value={toAddStep}
         onChange={(e) => setToAddStep(e.target.value)}
@@ -280,7 +281,7 @@ export default function RecipeView({
           : preferredLanguage === "nl"
           ? "Schaal ingrediëntenhoeveelheden: "
           : "Skaluj ilości składników: "}
-        <input
+        <Textbox
           type="number"
           value={scale}
           onChange={(e) => setScale(e.target.value)}
@@ -293,7 +294,7 @@ export default function RecipeView({
           : preferredLanguage === "nl"
           ? "Geef het aantal porties in het recept op: "
           : "Określ liczbę porcji w przepisie: "}
-        <input
+        <Textbox
           type="number"
           value={servings}
           onChange={(e) => setServings(e.target.value)}

@@ -3,6 +3,7 @@ import { useState } from "react";
 import Button from "@/components/Button";
 import { addIngredientRelation, revalidateIngredientList } from "./actions";
 import { useRouter } from "next/navigation";
+import Textbox from "@/components/Textbox";
 
 export default function RecipeAddIngredient({
   recipeId,
@@ -47,7 +48,7 @@ export default function RecipeAddIngredient({
           ? "Hoeveelheid:"
           : "Ilość:"}
       </p>
-      <input
+      <Textbox
         type="number"
         value={quantity}
         onChange={(e) => setQuantity(e.target.value)}
@@ -59,7 +60,7 @@ export default function RecipeAddIngredient({
           ? "Eenheid:"
           : "Jednostka:"}
       </p>
-      <input
+      <Textbox
         type="text"
         value={unit}
         onChange={(e) => setUnit(e.target.value)}

@@ -1,6 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import { useState } from "react";
+import Textbox from "@/components/Textbox";
 
 export default function ShoppingListAdder({
   setShoppingList,
@@ -71,7 +72,7 @@ export default function ShoppingListAdder({
               ? "Hoeveelheid:"
               : "Ilość:"}
           </p>
-          <input
+          <Textbox
             type="number"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
@@ -83,7 +84,7 @@ export default function ShoppingListAdder({
               ? "Eenheid:"
               : "Jednostka:"}
           </p>
-          <input
+          <Textbox
             type="text"
             value={unit}
             onChange={(e) => setUnit(e.target.value)}

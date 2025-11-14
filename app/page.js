@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { neon } from "@neondatabase/serverless";
 import Recipes from "./Recipes";
+import Button from "@/components/Button";
 
 export default async function Home() {
   const sql = neon(`${process.env.DATABASE_URL}`);
@@ -10,7 +11,10 @@ export default async function Home() {
   const allIngredients = await sql`SELECT * FROM ingredients`;
   return (
     <div>
-      <Link href="/editIngredients">Edit Ingredients</Link>
+      <Link href="/editIngredients">
+        <Button>Edit Ingredients</Button>
+      </Link>
+      <hr />
       <Recipes
         startingLoaded={recipes}
         loadedIngredients={ingredients}

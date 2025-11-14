@@ -7,7 +7,7 @@ export default function ChangeNameButton({ id }) {
   const [newName, setNewName] = useState("");
   return (
     <div>
-      <input
+      <Textbox
         type="text"
         value={newName}
         onChange={(e) => setNewName(e.target.value)}

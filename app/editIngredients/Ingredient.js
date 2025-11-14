@@ -3,6 +3,7 @@ import { useState } from "react";
 import { updateIngredient, deleteIngredient } from "./actions";
 import ChangeNameButton from "./ChangeNameButton";
 import Button from "@/components/Button";
+import Textbox from "@/components/Textbox";
 
 export default function Ingredient({
   name,
@@ -24,19 +25,19 @@ export default function Ingredient({
       </Button>
       {changeNameShown && <ChangeNameButton id={id} />}
       <p>Protein: </p>
-      <input
+      <Textbox
         type="number"
         value={proteinVal}
         onChange={(e) => setProteinVal(e.target.value)}
       />
       <p>Carbs: </p>
-      <input
+      <Textbox
         type="number"
         value={carbsVal}
         onChange={(e) => setCarbsVal(e.target.value)}
       />
       <p>Fats: </p>
-      <input
+      <Textbox
         type="number"
         value={fatsVal}
         onChange={(e) => setFatsVal(e.target.value)}
